@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/static/images/FINAL_LOGO-removebg-preview.png">
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Speech Analysis</title>
+  </head>
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  />
+
+  <body>
+
+    <div class="bg-image">
+      <button type="button" id="signout" style="float: right">Sign Out</button>
+    <img src=" " id="account" alt />
+    <center>
+      <h1 style=" color: #333; margin-left: 60px;">SPEECH PRECISION ANALYSER </h1>
+
+      <!-- <button type="button" id="sign_in" style="float: right">Login</button> -->
+    </center>
+
+    <div class="row" style="justify-content: space-around">
+      <img
+        src="/static/images/FINAL_LOGO-removebg-preview.png"
+        alt="project logo"
+        style="
+          display: block;
+          height: 150px;
+          width: 150px;
+          margin-left: 350px;
+          margin-right: 35px;
+        "
+      />
+
+      <img
+        src="static\images\speech.png"
+        alt="image"
+        style="
+          display: block;
+          width: 500px;
+          border: 1px solid;
+          border-radius: 15px;
+          margin-right: 400px;
+        "
+      />
+    </div>
+    <form class="row" action="/form" method="post">
+      <div class="col">
+        <textarea
+          name="data"
+          id="text"
+          rows="4"
+          cols="50"
+          placeholder="Type here..."
+          style="height: 200px"
+          class="my-box"
+        ></textarea>
+        <button type="button" id="mic" class="talk">
+          <i class="material-icons" style="font-size: 1000 px"> mic </i>
+          <span>Speak</span>
+        </button>
+      </div>
+      <div class="col">
+        <textarea
+          name="data1"
+          id="content"
+          rows="4"
+          cols="50"
+          placeholder="see what you have read!"
+          style="height: 200px"
+          readonly
+          class="my-box"
+        ></textarea>
+        <button type="submit" id="mic1" class="talk grn_talk">
+          <i class="material-icons" style="font-size: 1000 px"> check </i>
+          <span>Submit</span>
+        </button>
+      </div>
+    </form>
+    <script src="{{url_for('static', filename='app.js')}}"></script>
+    <script type="module">
+      import {
+        getAuth,
+        GoogleAuthProvider,
+        getRedirectResult,
+        signInWithPopup,
+        signOut,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-auth.js";
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDAlOyM1ultiDAJp8kBi9KcVF0OcZdXXr8",
+        authDomain: "speech-test-9a232.firebaseapp.com",
+        projectId: "speech-test-9a232",
+        storageBucket: "speech-test-9a232.appspot.com",
+        messagingSenderId: "974487713478",
+        appId: "1:974487713478:web:acf4df37cfd533ca9d09c7",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const provider = new GoogleAuthProvider(app);
+
+      // sign_in.addEventListener("click", (e) => {
+      //   signInWithPopup(auth, provider).catch((error) => {
+      //     // Handle Errors here.
+      //     const errorCode = error.code;
+      //     const errorMessage = error.message;
+      //     // The email of the user's accountount used.
+      //     const email = error.customData.email;
+      //     // The AuthCredential type that was used.
+      //     const credential = GoogleAuthProvider.credentialFromError(error);
+      //     // ...
+      //     alert(errorMessage);
+      //   });
+      // }); // sign in
+
+      signout.addEventListener("click", (e) => {
+        signOut(auth).catch((error) => {
+          // An error happened.
+        });
+      }); // sign out
+
+      onAuthStateChanged(auth, (user) => {
+        if (user != null) {
+          let a = user.photoURL;
+          document.getElementById("account").src = a; //displays user profile
+          document.getElementById("signout").style.display = "block"; //displays sign out button
+          // document.getElementById("sign_in").style.display = "none"; //hides google gif button
+        } // if user is signed in
+        else {
+          window.location.href = "/";
+          document.getElementById("sign_in").style.display = "block"; //displays google gif button
+        } // if not
+      }); // function to check whether user is signed in or not (inbuilt in firebase)
+    </script>
+  </body>
+</html>
+    </div>
+    
